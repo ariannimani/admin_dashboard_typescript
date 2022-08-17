@@ -24,3 +24,11 @@ Redux
 Bootstrap
 
 ### `npm install react-bootstrap bootstrap`
+
+Router
+
+### `npm install react-router react-router-dom`
+
+Axios
+
+### `npm install axios`

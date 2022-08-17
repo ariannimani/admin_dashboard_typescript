@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import { DropdownMenu } from "../dropdown-menu/dropdown-menu";
 
 export const TransactionCard = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const closeMenuHandler = () => {
+    setIsOpen(false);
+  };
   return (
     <div className="card">
       <div className="card-body">
@@ -19,21 +25,13 @@ export const TransactionCard = () => {
               id="cardOpt3"
               data-bs-toggle="dropdown"
               aria-haspopup="true"
-              aria-expanded="false"
+              aria-expanded="true"
+              onClick={() => setIsOpen(!isOpen)}
+              onBlur={closeMenuHandler}
             >
               <i className="bx bx-dots-vertical-rounded"></i>
             </button>
-            <div
-              className="dropdown-menu dropdown-menu-end"
-              aria-labelledby="cardOpt3"
-            >
-              <a className="dropdown-item" href="./">
-                View More
-              </a>
-              <a className="dropdown-item" href="./">
-                Delete
-              </a>
-            </div>
+            {isOpen ? <DropdownMenu isOpen={isOpen} /> : ""}
           </div>
         </div>
         <span className="fw-semibold d-block mb-1">Profit</span>

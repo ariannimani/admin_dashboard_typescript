@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import { DropdownMenu } from "../dropdown-menu/dropdown-menu";
 
 export const TransactionStatistics = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const closeMenuHandler = () => {
+    setIsOpen(false);
+  };
   return (
     <div className="card h-100">
       <div className="card-header d-flex align-items-center justify-content-between">
@@ -13,23 +19,12 @@ export const TransactionStatistics = () => {
             data-bs-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
+            onClick={() => setIsOpen(!isOpen)}
+            onBlur={closeMenuHandler}
           >
             <i className="bx bx-dots-vertical-rounded"></i>
           </button>
-          <div
-            className="dropdown-menu dropdown-menu-end"
-            aria-labelledby="transactionID"
-          >
-            <a className="dropdown-item" href="./">
-              Last 28 Days
-            </a>
-            <a className="dropdown-item" href="./">
-              Last Month
-            </a>
-            <a className="dropdown-item" href="./">
-              Last Year
-            </a>
-          </div>
+          {isOpen ? <DropdownMenu isOpen={isOpen} /> : ""}
         </div>
       </div>
       <div className="card-body">

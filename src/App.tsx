@@ -12,7 +12,7 @@ import { OrderStatistics } from "./components/order-statistics/order-statistics"
 import { MenuItems } from "./components/menu-items/menu-items";
 import "./App.css";
 
-function App() {
+export const App = () => {
   return (
     <div className="layout-wrapper layout-content-navbar">
       <div className="layout-container">
@@ -71,6 +71,4 @@ function App() {
       <div className="layout-overlay layout-menu-toggle"></div>
     </div>
   );
-}
-
-export default App;
+};
