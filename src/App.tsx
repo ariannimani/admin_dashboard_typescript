@@ -13,7 +13,6 @@ import { MenuItems } from "./components/menu-items/menu-items";
 import "./App.css";
 import { useDispatch } from "react-redux";
 import { AppDispatch, fetchDataAsync } from "./redux/data/data.action";
-import { selectDataCollection } from "./redux/data/data.selector";
 
 export const App = () => {
   const dispatch: any = useDispatch<AppDispatch>();
