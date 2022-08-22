@@ -19,7 +19,7 @@ Redux
 
 ### `npm install --save redux @types/redux`
 
-### `npm install --save react-redux @types/react-redux`
+### `npm install --save react-redux @types/react-redux redux-thunk redux-saga reselect redux-persist @types/redux-persist redux-logger @types/redux-logger`
 
 Bootstrap
 
@@ -32,3 +32,7 @@ Router
 Axios
 
 ### `npm install axios`
+
+Converting CSV to JSON
+
+### `npm i --save csvtojson`
