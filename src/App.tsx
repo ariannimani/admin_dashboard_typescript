@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Footer } from "./components/footer/footer";
 import { NavBar } from "./components/nav-bar/nav-bar";
@@ -11,8 +11,18 @@ import { TransactionStatistics } from "./components/transactions-statistics/tran
 import { OrderStatistics } from "./components/order-statistics/order-statistics";
 import { MenuItems } from "./components/menu-items/menu-items";
 import "./App.css";
+import { useDispatch } from "react-redux";
+import { AppDispatch, fetchDataAsync } from "./redux/data/data.action";
+import { selectDataCollection } from "./redux/data/data.selector";
 
 export const App = () => {
+  const dispatch: any = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchDataAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="layout-wrapper layout-content-navbar">
       <div className="layout-container">
