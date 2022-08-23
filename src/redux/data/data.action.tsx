@@ -1,5 +1,5 @@
-import { DataActionTypes } from "./data.types";
-import axios from "axios";
+import { DataActionTypes, IDataItem } from "./data.types";
+//import axios from "axios";
 import { store } from "../store";
 import {
   createAction,
@@ -7,13 +7,13 @@ import {
   ActionWithPayload,
   withMatcher,
 } from "../utils/action.utils";
-import { IState } from "./data.reducer";
+import { SalesData } from "./data";
 
 export type TFetchDataStart = Action<DataActionTypes.FETCH_DATA_START>;
 
 export type TFetchDataSucceeded = ActionWithPayload<
   DataActionTypes.FETCH_DATA_SUCCESS,
-  IState[]
+  IDataItem[]
 >;
 
 export type TFetchDataFailed = ActionWithPayload<
@@ -31,8 +31,8 @@ export const fetchDataStartAction = withMatcher(
 );
 
 export const fetchDataSucceededAction = withMatcher(
-  (data: IState[]): TFetchDataSucceeded =>
-    createAction(DataActionTypes.FETCH_DATA_SUCCESS, data)
+  (result: IDataItem[]): TFetchDataSucceeded =>
+    createAction(DataActionTypes.FETCH_DATA_SUCCESS, result)
 );
 
 export const fetchDataFailedAction = withMatcher(
@@ -45,10 +45,17 @@ export type AppDispatch = typeof store.dispatch;
 export const fetchDataAsync = () => async (dispatch: any) => {
   dispatch(fetchDataStartAction());
   try {
-    const res = axios.get(
-      `https://v1.nocodeapi.com/aarriiaann/csv2json/OJBlQIeexAuDWvwC`
-    );
-    const data = await res.then((result: any) => result.data.json);
+    //const res = axios.get(
+    //  `https://api.publicapis.org/entries
+    //  `
+    //);
+    //const data = await res.then((result: any) => result.data.json);
+
+    //Dummy Fetch Data
+    const myPromise = new Promise(function (resolve, reject) {
+      resolve(SalesData);
+    });
+    const data = await myPromise.then((result: any) => result);
 
     dispatch(fetchDataSucceededAction(data));
   } catch (e: any) {

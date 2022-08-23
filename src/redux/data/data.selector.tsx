@@ -1,24 +1,31 @@
 import { createSelector } from "reselect";
-import { IState } from "./data.reducer";
+import { IDataState } from "./data.types";
 
-const selectData = (state: IState) => state;
+const selectState = (state: IDataState) => state;
+const selectDataState = (state: IDataState) => state.resultData;
 
 export const selectDataCollection = createSelector(
-  [selectData],
-  (state: IState) => state.data
+  [selectDataState],
+  (collection) => collection.data
+);
+
+export const selectRegionCollection = createSelector(
+  [selectDataCollection],
+  (regions) =>
+    regions
+      .filter(
+        (value, index, self) =>
+          index === self.findIndex((t) => t.Region === value.Region)
+      )
+      .map((region) => region.Region)
 );
 
 export const selectIsDataFetching = createSelector(
-  [selectData],
-  (state: IState) => state.isFetching
+  [selectState],
+  (fetch: any) => fetch.isFetching
 );
 
 export const selectIsDataLoaded = createSelector(
-  [selectData],
-  (state: IState) => state.isLoaded
-);
-
-export const selectTotalCost = createSelector(
-  [selectData],
-  (state: IState) => state.data
+  [selectState],
+  (load: any) => load.isLoaded
 );

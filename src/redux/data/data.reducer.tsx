@@ -4,16 +4,10 @@ import {
   fetchDataFailedAction,
 } from "./data.action";
 import { AnyAction } from "redux";
+import { IDataFetch } from "./data.types";
 
-export interface IState {
-  data: {};
-  isFetching: boolean;
-  isLoaded: boolean;
-  errorMessage: Error | undefined;
-}
-
-const INITIAL_STATE: IState = {
-  data: {},
+const INITIAL_STATE: IDataFetch = {
+  data: [],
   isFetching: false,
   isLoaded: false,
   errorMessage: undefined,
@@ -22,7 +16,7 @@ const INITIAL_STATE: IState = {
 const dataReducer = (
   state = INITIAL_STATE,
   action = {} as AnyAction
-): IState => {
+): IDataFetch => {
   if (fetchDataStartAction.match(action)) {
     return {
       ...state,

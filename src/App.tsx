@@ -19,8 +19,7 @@ export const App = () => {
 
   useEffect(() => {
     dispatch(fetchDataAsync());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="layout-wrapper layout-content-navbar">
