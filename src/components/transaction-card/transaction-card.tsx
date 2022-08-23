@@ -3,6 +3,7 @@ import { DropdownMenu } from "../dropdown-menu/dropdown-menu";
 
 export const TransactionCard = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedItem, setSelectedItem] = useState<string>("");
 
   const closeMenuHandler = () => {
     setIsOpen(false);
@@ -31,7 +32,15 @@ export const TransactionCard = () => {
             >
               <i className="bx bx-dots-vertical-rounded"></i>
             </button>
-            {isOpen ? <DropdownMenu isOpen={isOpen} /> : ""}
+            {/*{isOpen ? (
+              <DropdownMenu
+                isOpen={isOpen}
+                items={[]}
+                setSelectedItem={setSelectedItem}
+              />
+            ) : (
+              ""
+            )}*/}
           </div>
         </div>
         <span className="fw-semibold d-block mb-1">Profit</span>
