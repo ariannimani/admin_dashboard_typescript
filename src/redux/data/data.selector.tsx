@@ -20,6 +20,42 @@ export const selectRegionCollection = createSelector(
       .map((region) => region.Region)
 );
 
+export const selectProfitData = createSelector(
+  [selectDataCollection],
+  (profit) => {
+    const d = new Date();
+    let year = d.getFullYear();
+    const Profit = profit
+      .filter((date) => Number(date["Order Date"].slice(-4)) === year)
+      .map((data) => data["Total Profit"])
+      .reduce((sum, a) => sum + a, 0);
+
+    return Profit;
+  }
+);
+
+export const selectTotalIncreaseData = createSelector(
+  [selectDataCollection],
+  (profit) => {
+    const d = new Date();
+    let year = d.getFullYear();
+    let lastYear = d.getFullYear() - 1;
+
+    const ProfitCurrentYear = profit
+      .filter((date) => Number(date["Order Date"].slice(-4)) === year)
+      .map((data) => data["Total Profit"])
+      .reduce((sum, a) => sum + a, 0);
+
+    const ProfitLastYear = profit
+      .filter((date) => Number(date["Order Date"].slice(-4)) === lastYear)
+      .map((data) => data["Total Profit"])
+      .reduce((sum, a) => sum + a, 0);
+    console.log(ProfitCurrentYear, ProfitLastYear);
+
+    return ((ProfitCurrentYear - ProfitLastYear) / ProfitCurrentYear) * 100;
+  }
+);
+
 export const selectIsDataFetching = createSelector(
   [selectState],
   (fetch: any) => fetch.isFetching
