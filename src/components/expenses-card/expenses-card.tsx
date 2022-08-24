@@ -3,7 +3,7 @@ import { Button } from "../button/button";
 import { ExpensesItems } from "../expenses-items/expenses-items";
 
 export const ExpensesCard = () => {
-  const [expenseActive, setExpenseActive] = useState("");
+  const [expenseActive, setExpenseActive] = useState("Profit");
   const expensesActiveHandler = (itemValue: string) => {
     setExpenseActive(itemValue);
   };
