@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import useDidMountEffect from "../../customHooks/useDidMountEffect";
 import { selectRegionCollection } from "../../redux/data/data.selector";
 import { DropdownMenu } from "../dropdown-menu/dropdown-menu";
 import { RevenueCardItem } from "../revenue-card-item/revenue-card-item";
@@ -7,11 +8,21 @@ import { RevenueCardItem } from "../revenue-card-item/revenue-card-item";
 export const RevenueCard = () => {
   const selectRegion = useSelector(selectRegionCollection);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<string>(selectRegion[0]);
+  const [selectedItem, setSelectedItem] = useState<string>("");
   const closeMenuHandler = () => {
     setIsOpen(false);
   };
 
+  useDidMountEffect(() => {
+    setSelectedItem(selectRegion[0]);
+  }, []);
+
+  const changeItemHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    const item: HTMLButtonElement = event.currentTarget;
+    setSelectedItem(item.value);
+  };
   return (
     <div className="card">
       <div className="row row-bordered g-0">
@@ -31,11 +42,12 @@ export const RevenueCard = () => {
               >
                 {selectedItem}
               </button>
+
               {isOpen ? (
                 <DropdownMenu
                   isOpen={isOpen}
                   items={selectRegion}
-                  setSelectedItem={setSelectedItem}
+                  changeItemHandler={changeItemHandler}
                 />
               ) : (
                 ""
