@@ -3,8 +3,6 @@ import { DropdownMenu } from "../dropdown-menu/dropdown-menu";
 
 export const TransactionStatistics = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedItem, setSelectedItem] = useState<string>("");
 
   const closeMenuHandler = () => {
     setIsOpen(false);
@@ -30,7 +28,7 @@ export const TransactionStatistics = () => {
             <DropdownMenu
               isOpen={isOpen}
               items={[]}
-              setSelectedItem={setSelectedItem}
+              changeItemHandler={closeMenuHandler}
             />
           ) : (
             ""
