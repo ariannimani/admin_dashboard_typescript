@@ -1,12 +1,33 @@
-import React from "react";
+import React, { PropsWithChildren, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectOrderData } from "../../redux/data/data.selector";
+import { formatCash } from "../../redux/utils/otherFunctions";
+import { DropdownMenu } from "../dropdown-menu/dropdown-menu";
+import { TransactionItem } from "../transaction-item/transaction-item";
 
 export const OrderStatistics = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const selectMostSoldItems = useSelector(selectOrderData);
+  const closeMenuHandler = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div className="card h-100">
       <div className="card-header d-flex align-items-center justify-content-between pb-0">
         <div className="card-title mb-0">
           <h5 className="m-0 me-2">Order Statistics</h5>
-          <small className="text-muted">42.82k Total Sales</small>
+          <small className="text-muted">
+            {formatCash(
+              selectMostSoldItems.reduce(
+                (accumulator, object): PropsWithChildren<any> => {
+                  return accumulator + object.sold;
+                },
+                0
+              )
+            )}{" "}
+            Total Sales
+          </small>
         </div>
         <div className="dropdown">
           <button
@@ -16,98 +37,26 @@ export const OrderStatistics = () => {
             data-bs-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
+            onClick={() => setIsOpen(!isOpen)}
+            onBlur={closeMenuHandler}
           >
             <i className="bx bx-dots-vertical-rounded"></i>
           </button>
-          <div
-            className="dropdown-menu dropdown-menu-end"
-            aria-labelledby="orederStatistics"
-          >
-            <a className="dropdown-item" href="./">
-              Select All
-            </a>
-            <a className="dropdown-item" href="./">
-              Refresh
-            </a>
-            <a className="dropdown-item" href="./">
-              Share
-            </a>
-          </div>
+          {isOpen ? <DropdownMenu isOpen={isOpen} items={["Refresh"]} /> : ""}
         </div>
       </div>
       <div className="card-body">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <div className="d-flex flex-column align-items-center gap-1">
-            <h2 className="mb-2">8,258</h2>
-            <span>Total Orders</span>
-          </div>
           <div id="orderStatisticsChart"></div>
         </div>
         <ul className="p-0 m-0">
-          <li className="d-flex mb-4 pb-1">
-            <div className="avatar flex-shrink-0 me-3">
-              <span className="avatar-initial rounded bg-label-primary">
-                <i className="bx bx-mobile-alt"></i>
-              </span>
-            </div>
-            <div className="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-              <div className="me-2">
-                <h6 className="mb-0">Electronic</h6>
-                <small className="text-muted">Mobile, Earbuds, TV</small>
-              </div>
-              <div className="user-progress">
-                <small className="fw-semibold">82.5k</small>
-              </div>
-            </div>
-          </li>
-          <li className="d-flex mb-4 pb-1">
-            <div className="avatar flex-shrink-0 me-3">
-              <span className="avatar-initial rounded bg-label-success">
-                <i className="bx bx-closet"></i>
-              </span>
-            </div>
-            <div className="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-              <div className="me-2">
-                <h6 className="mb-0">Fashion</h6>
-                <small className="text-muted">T-shirt, Jeans, Shoes</small>
-              </div>
-              <div className="user-progress">
-                <small className="fw-semibold">23.8k</small>
-              </div>
-            </div>
-          </li>
-          <li className="d-flex mb-4 pb-1">
-            <div className="avatar flex-shrink-0 me-3">
-              <span className="avatar-initial rounded bg-label-info">
-                <i className="bx bx-home-alt"></i>
-              </span>
-            </div>
-            <div className="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-              <div className="me-2">
-                <h6 className="mb-0">Decor</h6>
-                <small className="text-muted">Fine Art, Dining</small>
-              </div>
-              <div className="user-progress">
-                <small className="fw-semibold">849k</small>
-              </div>
-            </div>
-          </li>
-          <li className="d-flex">
-            <div className="avatar flex-shrink-0 me-3">
-              <span className="avatar-initial rounded bg-label-secondary">
-                <i className="bx bx-football"></i>
-              </span>
-            </div>
-            <div className="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-              <div className="me-2">
-                <h6 className="mb-0">Sports</h6>
-                <small className="text-muted">Football, Cricket Kit</small>
-              </div>
-              <div className="user-progress">
-                <small className="fw-semibold">99</small>
-              </div>
-            </div>
-          </li>
+          {selectMostSoldItems.map((item) => (
+            <TransactionItem
+              key={item.type}
+              item={item.type}
+              amount={item.sold}
+            />
+          ))}
         </ul>
       </div>
     </div>
