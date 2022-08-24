@@ -1,16 +1,15 @@
 import { FunctionComponent } from "react";
-import { Button } from "react-bootstrap";
 
 interface IDropdownMenu {
   isOpen: boolean;
   items: string[];
-  setSelectedItem: React.Dispatch<React.SetStateAction<string>>;
+  changeItemHandler?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export const DropdownMenu: FunctionComponent<IDropdownMenu> = ({
   isOpen,
   items,
-  setSelectedItem,
+  changeItemHandler,
 }): JSX.Element => {
   return (
     <div
@@ -18,13 +17,15 @@ export const DropdownMenu: FunctionComponent<IDropdownMenu> = ({
       aria-labelledby="cardOpt3"
     >
       {items.map((item: string) => (
-        <Button
+        <button
           key={item}
-          className="dropdown-item"
-          onClick={() => setSelectedItem(item)}
+          className="dropdown-item btn btn-link"
+          value={item}
+          type="button"
+          onClick={changeItemHandler}
         >
           {item}
-        </Button>
+        </button>
       ))}
     </div>
   );
