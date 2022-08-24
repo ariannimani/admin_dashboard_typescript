@@ -1,9 +1,20 @@
+import { title } from "process";
 import React, { useState } from "react";
 import { DropdownMenu } from "../dropdown-menu/dropdown-menu";
+import { numberWithCommas } from "../../redux/utils/otherFunctions";
 
-export const TransactionCard = () => {
+interface ITransactions {
+  data: number;
+  title: string;
+  increase: number;
+}
+
+export const TransactionCard: React.FC<ITransactions> = ({
+  data,
+  title,
+  increase,
+}): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<string>("");
 
   const closeMenuHandler = () => {
     setIsOpen(false);
@@ -32,21 +43,34 @@ export const TransactionCard = () => {
             >
               <i className="bx bx-dots-vertical-rounded"></i>
             </button>
-            {/*{isOpen ? (
-              <DropdownMenu
-                isOpen={isOpen}
-                items={[]}
-                setSelectedItem={setSelectedItem}
-              />
+            {isOpen ? (
+              <DropdownMenu isOpen={isOpen} items={["View", "Delete"]} />
             ) : (
               ""
-            )}*/}
+            )}
           </div>
         </div>
-        <span className="fw-semibold d-block mb-1">Profit</span>
-        <h3 className="card-title mb-2">$12,628</h3>
-        <small className="text-success fw-semibold">
-          <i className="bx bx-up-arrow-alt"></i> +72.80%
+        <span className="fw-semibold d-block mb-1">{title}</span>
+        <h3 className="card-title mb-2">
+          $
+          {numberWithCommas(
+            data.toLocaleString("en", {
+              useGrouping: false,
+              minimumFractionDigits: 2,
+            })
+          )}
+        </h3>
+        <small
+          className={`fw-semibold ${
+            increase >= 0 ? "text-success" : "text-danger"
+          }`}
+        >
+          <i
+            className={`bx ${
+              increase >= 0 ? "bx-up-arrow-alt" : "bx-down-arrow-alt"
+            }`}
+          ></i>{" "}
+          {increase.toFixed(2)}%
         </small>
       </div>
     </div>
