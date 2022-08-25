@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { DropdownMenu } from "../dropdown-menu/dropdown-menu";
+import React, { useRef, useState } from "react";
+import DropdownMenu from "../dropdown-menu/dropdown-menu";
 import { numberWithCommas } from "../../redux/utils/otherFunctions";
 
 interface ITransactions {
@@ -14,12 +14,26 @@ export const TransactionCard: React.FC<ITransactions> = ({
   increase,
 }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const closeMenuHandler = () => {
-    setIsOpen(false);
+  const [isSelected, setIsSelected] = useState<string>("Last Month");
+  const closeMenuHandler = (e: any) => {
+    if (
+      TransactionMenu.current &&
+      isSelected &&
+      !TransactionMenu.current.contains(e.target)
+    ) {
+      setIsOpen(false);
+    }
   };
+  const changeItemHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const item: HTMLButtonElement = event.currentTarget;
+    setIsSelected(item.value);
+  };
+  const TransactionMenu = useRef<HTMLDivElement>(null);
+
+  document.addEventListener("mousedown", closeMenuHandler);
   return (
-    <div className="card">
+    <div className="card" ref={TransactionMenu}>
       <div className="card-body">
         <div className="card-title d-flex align-items-start justify-content-between">
           <div className="avatar flex-shrink-0">
@@ -38,12 +52,16 @@ export const TransactionCard: React.FC<ITransactions> = ({
               aria-haspopup="true"
               aria-expanded="true"
               onClick={() => setIsOpen(!isOpen)}
-              onBlur={closeMenuHandler}
             >
               <i className="bx bx-dots-vertical-rounded"></i>
             </button>
             {isOpen ? (
-              <DropdownMenu isOpen={isOpen} items={["View", "Delete"]} />
+              <DropdownMenu
+                isOpen={isOpen}
+                items={["Last Month", "Last Quarter", "Last Year"]}
+                changeItemHandler={changeItemHandler}
+                isSelected={isSelected}
+              />
             ) : (
               ""
             )}
