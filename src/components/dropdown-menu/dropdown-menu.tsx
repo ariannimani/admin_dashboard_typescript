@@ -6,7 +6,7 @@ import { selectTimeFrameValue } from "../../redux/data/data.selector";
 interface IDropdownMenu {
   isOpen: boolean;
   items: string[];
-  isSelected: string;
+  isSelected?: string;
   changeItemHandler?: React.MouseEventHandler<HTMLButtonElement>;
 }
 

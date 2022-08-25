@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DropdownMenu } from "../dropdown-menu/dropdown-menu";
+import DropdownMenu from "../dropdown-menu/dropdown-menu";
 
 export const TransactionStatistics = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);

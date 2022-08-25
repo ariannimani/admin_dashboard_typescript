@@ -13,9 +13,16 @@ import { MenuItems } from "./components/menu-items/menu-items";
 import "./App.css";
 import { useDispatch } from "react-redux";
 import { AppDispatch, fetchDataAsync } from "./redux/data/data.action";
+import { useSelector } from "react-redux";
+import {
+  selectProfitData,
+  selectTotalIncreaseData,
+} from "./redux/data/data.selector";
 
 export const App = () => {
   const dispatch: any = useDispatch<AppDispatch>();
+  const selectProfit = useSelector(selectProfitData);
+  const selectTotalIncrease = useSelector(selectTotalIncreaseData);
 
   useEffect(() => {
     dispatch(fetchDataAsync());
@@ -36,10 +43,18 @@ export const App = () => {
                 <div className="col-lg-4 col-md-4 order-1">
                   <div className="row">
                     <div className="col-lg-6 col-md-12 col-6 mb-4">
-                      <TransactionCard />
+                      <TransactionCard
+                        data={selectProfit}
+                        title={"Profit"}
+                        increase={selectTotalIncrease}
+                      />
                     </div>
                     <div className="col-lg-6 col-md-12 col-6 mb-4">
-                      <TransactionCard />
+                      <TransactionCard
+                        data={selectProfit}
+                        title={"Profit"}
+                        increase={selectTotalIncrease}
+                      />
                     </div>
                   </div>
                 </div>
@@ -48,12 +63,8 @@ export const App = () => {
                 </div>
                 <div className="col-12 col-md-8 col-lg-4 order-3 order-md-2">
                   <div className="row">
-                    <div className="col-6 mb-4">
-                      <TransactionCard />
-                    </div>
-                    <div className="col-6 mb-4">
-                      <TransactionCard />
-                    </div>
+                    <div className="col-6 mb-4">{/*<TransactionCard />*/}</div>
+                    <div className="col-6 mb-4">{/*<TransactionCard />*/}</div>
                     <div className="col-12 mb-4">
                       <ProfileReportCard />
                     </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import useDidMountEffect from "../../customHooks/useDidMountEffect";
 import { selectRegionCollection } from "../../redux/data/data.selector";
-import { DropdownMenu } from "../dropdown-menu/dropdown-menu";
+import DropdownMenu  from "../dropdown-menu/dropdown-menu";
 import { RevenueCardItem } from "../revenue-card-item/revenue-card-item";
 
 export const RevenueCard = () => {

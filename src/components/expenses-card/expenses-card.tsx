@@ -1,11 +1,31 @@
 import React, { useState } from "react";
 import { Button } from "../button/button";
 import { ExpensesItems } from "../expenses-items/expenses-items";
-
+import { useSelector } from "react-redux";
+import { selectLast60DaysData } from "../../redux/data/data.selector";
 export const ExpensesCard = () => {
   const [expenseActive, setExpenseActive] = useState("Profit");
   const expensesActiveHandler = (itemValue: string) => {
     setExpenseActive(itemValue);
+  };
+  const selectLast60Days = useSelector(selectLast60DaysData);
+
+  const Profit = () => {
+    return selectLast60Days
+      .map((data) => data["Total Profit"])
+      .reduce((sum, a) => sum + a, 0);
+  };
+
+  const Expenses = () => {
+    return selectLast60Days
+      .map((data) => data["Total Cost"])
+      .reduce((sum, a) => sum + a, 0);
+  };
+
+  const Revenue = () => {
+    return selectLast60Days
+      .map((data) => data["Total Revenue"])
+      .reduce((sum, a) => sum + a, 0);
   };
   return (
     <div className="card h-100">

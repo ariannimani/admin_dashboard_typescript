@@ -2,7 +2,7 @@ import React, { PropsWithChildren, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectOrderData } from "../../redux/data/data.selector";
 import { formatCash } from "../../redux/utils/otherFunctions";
-import { DropdownMenu } from "../dropdown-menu/dropdown-menu";
+import DropdownMenu from "../dropdown-menu/dropdown-menu";
 import { TransactionItem } from "../transaction-item/transaction-item";
 
 export const OrderStatistics = () => {

@@ -1,6 +1,11 @@
 import React from "react";
+import { IDataItem } from "../../redux/data/data.types";
 
-export const ExpensesItems = () => {
+interface IExpensesItem {
+  item?: IDataItem;
+}
+
+export const ExpensesItems: React.FC<IExpensesItem> = () => {
   return (
     <div className="tab-content p-0">
       <div
