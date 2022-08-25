@@ -4,6 +4,10 @@ import { IDataState } from "./data.types";
 const selectState = (state: IDataState) => state;
 const selectDataState = (state: IDataState) => state.resultData;
 
+export const selectTimeFrameValue = (state: IDataState, ownProps: any) => {
+  return ownProps.isSelected;
+};
+
 const d = new Date();
 let year = d.getFullYear();
 let lastYear = d.getFullYear() - 1;
