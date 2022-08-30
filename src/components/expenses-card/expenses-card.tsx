@@ -3,6 +3,7 @@ import { Button } from "../button/button";
 import { ExpensesItems } from "../expenses-items/expenses-items";
 import { useSelector } from "react-redux";
 import { selectLast60DaysData } from "../../redux/data/data.selector";
+
 export const ExpensesCard = () => {
   const [expenseActive, setExpenseActive] = useState("Profit");
   const expensesActiveHandler = (itemValue: string) => {
@@ -10,21 +11,58 @@ export const ExpensesCard = () => {
   };
   const selectLast60Days = useSelector(selectLast60DaysData);
 
-  const Profit = () => {
+  const Revenue = () => {
     return selectLast60Days
-      .map((data) => data["Total Profit"])
-      .reduce((sum, a) => sum + a, 0);
+      .map((i) => {
+        return {
+          name: i["Order Date"],
+          value: i["Total Revenue"],
+          pv: i["Total Revenue"],
+          amt: i["Total Revenue"],
+        };
+      })
+      .sort((a, b) => (Date.parse(a.name) > Date.parse(b.name) ? 1 : -1));
   };
 
   const Expenses = () => {
     return selectLast60Days
-      .map((data) => data["Total Cost"])
-      .reduce((sum, a) => sum + a, 0);
+      .map((i) => {
+        return {
+          name: i["Order Date"],
+          value: i["Total Cost"],
+          pv: i["Total Cost"],
+          amt: i["Total Cost"],
+        };
+      })
+      .sort((a, b) => (Date.parse(a.name) > Date.parse(b.name) ? 1 : -1));
   };
 
-  const Revenue = () => {
+  const Profit = () => {
     return selectLast60Days
-      .map((data) => data["Total Revenue"])
+      .map((i) => {
+        return {
+          name: i["Order Date"],
+          value: i["Total Profit"],
+          pv: i["Total Profit"],
+          amt: i["Total Profit"],
+        };
+      })
+      .sort((a, b) => (Date.parse(a.name) > Date.parse(b.name) ? 1 : -1));
+  };
+
+  const Items = () => {
+    if (expenseActive === "Income") {
+      return Revenue();
+    } else if (expenseActive === "Expenses") {
+      return Expenses();
+    } else if (expenseActive === "Profit") {
+      return Profit();
+    }
+  };
+
+  const Balance = () => {
+    return Profit()
+      .map((data) => data.value)
       .reduce((sum, a) => sum + a, 0);
   };
   return (
@@ -55,7 +93,7 @@ export const ExpensesCard = () => {
         </ul>
       </div>
       <div className="card-body px-0">
-        <ExpensesItems />
+        <ExpensesItems item={Items()} balance={Balance()} />
       </div>
     </div>
   );

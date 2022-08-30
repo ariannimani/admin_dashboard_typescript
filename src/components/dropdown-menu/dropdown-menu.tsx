@@ -1,7 +1,4 @@
 import { FunctionComponent } from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
-import { selectTimeFrameValue } from "../../redux/data/data.selector";
 
 interface IDropdownMenu {
   isOpen: boolean;
@@ -10,21 +7,23 @@ interface IDropdownMenu {
   changeItemHandler?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const DropdownMenu: FunctionComponent<IDropdownMenu> = (props): JSX.Element => {
+const DropdownMenu: FunctionComponent<IDropdownMenu> = ({
+  isOpen,
+  items,
+  changeItemHandler,
+}): JSX.Element => {
   return (
     <div
-      className={`dropdown-menu dropdown-menu-end ${
-        props.isOpen ? "show" : ""
-      }`}
+      className={`dropdown-menu dropdown-menu-end ${isOpen ? "show" : ""}`}
       aria-labelledby="cardOpt3"
     >
-      {props.items.map((item: string) => (
+      {items.map((item: string) => (
         <button
           key={item}
           className="dropdown-item btn btn-link"
           value={item}
           type="button"
-          onClick={props.changeItemHandler}
+          onClick={changeItemHandler}
         >
           {item}
         </button>
@@ -33,7 +32,4 @@ const DropdownMenu: FunctionComponent<IDropdownMenu> = (props): JSX.Element => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  selectTimeFrameValue,
-});
-export default connect(mapStateToProps)(DropdownMenu);
+export default DropdownMenu;

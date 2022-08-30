@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import DropdownMenu from "../dropdown-menu/dropdown-menu";
 import { numberWithCommas } from "../../redux/utils/otherFunctions";
+import { useSelector } from "react-redux";
+import { selectProfitData } from "../../redux/data/data.selector";
 
 interface ITransactions {
   data: number;
@@ -15,6 +17,7 @@ export const TransactionCard: React.FC<ITransactions> = ({
 }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSelected, setIsSelected] = useState<string>("Last Month");
+
   const closeMenuHandler = (e: any) => {
     if (
       TransactionMenu.current &&

@@ -30,3 +30,6 @@ Router
 Axios
 
 `npm install axios`
+
+Nivo Charts
+`npm install @nivo/core @nivo/bump`

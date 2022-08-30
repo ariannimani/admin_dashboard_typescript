@@ -4,9 +4,22 @@ import { IDataState } from "./data.types";
 const selectState = (state: IDataState) => state;
 const selectDataState = (state: IDataState) => state.resultData;
 
-export const selectTimeFrameValue = (state: IDataState, ownProps: any) => {
-  return ownProps.isSelected;
-};
+//NEED TO FIX DropDownMenu
+export const selectTimeFrameValue =
+  () => (state: IDataState, ownProps: any) => {
+    const selected: number = ownProps.items.indexOf(ownProps.isSelected);
+    let filterValue: number = 0;
+    if (selected === 0) {
+      filterValue = 30;
+    } else if (selected === 1) {
+      filterValue = 90;
+    } else if (selected === 2) {
+      filterValue = 365;
+    } else {
+      filterValue = 0;
+    }
+    return filterValue;
+  };
 
 const d = new Date();
 let year = d.getFullYear();
@@ -28,11 +41,22 @@ export const selectRegionCollection = createSelector(
       .map((region) => region.Region)
 );
 
+//NEED TO FIX
 export const selectProfitData = createSelector(
   [selectDataCollection],
   (profit) => {
+    const month: any = selectTimeFrameValue;
+
+    const date = profit
+      .filter((date) => new Date(date["Order Date"]))
+      .map((item) => new Date(item["Order Date"]).getTime() / 1000);
+
+    const maxDate = Math.max.apply(null, date);
+
+    const previousWeek = Number((maxDate - 30 * 24 * 60 * 60) * 1000);
+
     const Profit = profit
-      .filter((date) => Number(date["Order Date"].slice(-4)) === year)
+      .filter((unit) => new Date(unit["Order Date"]).getTime() > previousWeek)
       .map((data) => data["Total Profit"])
       .reduce((sum, a) => sum + a, 0);
 
@@ -97,7 +121,8 @@ export const selectLast60DaysData = createSelector(
     const previousWeek = Number((maxDate - 60 * 24 * 60 * 60) * 1000);
 
     const FinalData = units.filter(
-      (unit) => new Date(unit["Order Date"]).getTime() > previousWeek
+      (unit) => Number(unit["Order Date"].slice(-4)) === year
+      //new Date(unit["Order Date"]).getTime()> previousWeek
     );
 
     return FinalData;
