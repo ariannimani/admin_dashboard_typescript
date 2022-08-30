@@ -31,5 +31,6 @@ Axios
 
 `npm install axios`
 
-Nivo Charts
-`npm install @nivo/core @nivo/bump`
+ReCharts
+
+`npm install recharts`
