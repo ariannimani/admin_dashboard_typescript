@@ -42,17 +42,25 @@ export const selectRegionCollection = createSelector(
 );
 
 //Select Years
-
 export const selectYears = createSelector([selectDataCollection], (years) => {
   return years.map((year) => year["Order Date"].slice(-4));
 });
+
+////Filter Sum By Year
+//export const selectSumByYear = createSelector(
+//  [selectDataCollection],
+//  (data) => {
+//    return data
+//      .filter((year) => Number(year["Order Date"].slice(-4)) === 2022)
+//      .map((data) => data["Total Profit"])
+//      .reduce((sum, a) => sum + a, 0);
+//  }
+//);
 
 //NEED TO FIX
 export const selectProfitData = createSelector(
   [selectDataCollection],
   (profit) => {
-    const month: any = selectTimeFrameValue;
-
     const date = profit
       .filter((date) => new Date(date["Order Date"]))
       .map((item) => new Date(item["Order Date"]).getTime() / 1000);
@@ -118,13 +126,13 @@ export const selectOrderData = createSelector(
 export const selectLast60DaysData = createSelector(
   [selectDataCollection],
   (units) => {
-    const date = units
-      .filter((date) => new Date(date["Order Date"]))
-      .map((item) => new Date(item["Order Date"]).getTime() / 1000);
+    //const date = units
+    //  .filter((date) => new Date(date["Order Date"]))
+    //  .map((item) => new Date(item["Order Date"]).getTime() / 1000);
 
-    const maxDate = Math.max.apply(null, date);
+    //const maxDate = Math.max.apply(null, date);
 
-    const previousWeek = Number((maxDate - 60 * 24 * 60 * 60) * 1000);
+    //const previousWeek = Number((maxDate - 60 * 24 * 60 * 60) * 1000);
 
     const FinalData = units.filter(
       (unit) => Number(unit["Order Date"].slice(-4)) === year

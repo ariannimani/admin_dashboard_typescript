@@ -7,7 +7,7 @@ import {
   selectYears,
 } from "../../redux/data/data.selector";
 import DropdownMenu from "../dropdown-menu/dropdown-menu";
-import { RevenueCardItem } from "../revenue-card-item/revenue-card-item";
+import RevenueCardItem from "../revenue-card-item/revenue-card-item";
 import {
   ComposedChart,
   Line,
@@ -20,7 +20,7 @@ import {
   Legend,
 } from "recharts";
 
-export const RevenueCard = () => {
+const RevenueCard = () => {
   const selectRegion = useSelector(selectRegionCollection);
   const selectAllDataDays = useSelector(selectAllData);
   const selectYear = useSelector(selectYears);
@@ -115,6 +115,7 @@ export const RevenueCard = () => {
           </div>
         </div>
         <RevenueCardItem
+          data={selectAllDataDays}
           selectYear={selectYear
             .filter((v, i, a) => a.indexOf(v) === i)
             .sort((a, b) => (Date.parse(a) < Date.parse(b) ? 1 : -1))}
@@ -123,3 +124,5 @@ export const RevenueCard = () => {
     </div>
   );
 };
+
+export default RevenueCard;

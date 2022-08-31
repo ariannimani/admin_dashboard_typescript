@@ -4,7 +4,7 @@ import { Footer } from "./components/footer/footer";
 import { NavBar } from "./components/nav-bar/nav-bar";
 import { BadgeCard } from "./components/badge-card/badge-card";
 import { TransactionCard } from "./components/transaction-card/transaction-card";
-import { RevenueCard } from "./components/revenue-card/revenue-card";
+import RevenueCard from "./components/revenue-card/revenue-card";
 import { ProfileReportCard } from "./components/profile-report-card/profile-report-card";
 import { ExpensesCard } from "./components/expenses-card/expenses-card";
 import { TransactionStatistics } from "./components/transactions-statistics/transaction-statistics";
