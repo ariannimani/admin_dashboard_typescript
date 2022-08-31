@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import useDidMountEffect from "../../customHooks/useDidMountEffect";
-import { selectRegionCollection } from "../../redux/data/data.selector";
+import {
+  selectAllData,
+  selectRegionCollection,
+  selectYears,
+} from "../../redux/data/data.selector";
 import DropdownMenu from "../dropdown-menu/dropdown-menu";
 import { RevenueCardItem } from "../revenue-card-item/revenue-card-item";
-import { selectLast60DaysData } from "../../redux/data/data.selector";
 import {
   ComposedChart,
   Line,
@@ -19,12 +22,14 @@ import {
 
 export const RevenueCard = () => {
   const selectRegion = useSelector(selectRegionCollection);
+  const selectAllDataDays = useSelector(selectAllData);
+  const selectYear = useSelector(selectYears);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<string>("");
-  const selectLast60Days = useSelector(selectLast60DaysData);
+  const [selectedRegion, setSelectedRegion] = useState<string>("");
 
   const Data = () => {
-    return selectLast60Days
+    return selectAllDataDays
+      .filter((region) => region["Region"] === selectedRegion)
       .map((i) => {
         return {
           name: i["Order Date"],
@@ -41,14 +46,15 @@ export const RevenueCard = () => {
   };
 
   useDidMountEffect(() => {
-    setSelectedItem(selectRegion[0]);
+    setSelectedRegion(selectRegion[0]);
   }, []);
 
   const changeItemHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     const item: HTMLButtonElement = event.currentTarget;
-    setSelectedItem(item.value);
+    setSelectedRegion(item.value);
+    closeMenuHandler();
   };
   return (
     <div className="card">
@@ -65,11 +71,10 @@ export const RevenueCard = () => {
                 aria-haspopup="true"
                 aria-expanded="false"
                 onClick={() => setIsOpen(!isOpen)}
-                onBlur={closeMenuHandler}
+                //onBlur={closeMenuHandler}
               >
-                {selectedItem}
+                {selectedRegion}
               </button>
-
               {isOpen ? (
                 <DropdownMenu
                   isOpen={isOpen}
@@ -109,7 +114,11 @@ export const RevenueCard = () => {
             </ComposedChart>
           </div>
         </div>
-        <RevenueCardItem />
+        <RevenueCardItem
+          selectYear={selectYear
+            .filter((v, i, a) => a.indexOf(v) === i)
+            .sort((a, b) => (Date.parse(a) < Date.parse(b) ? 1 : -1))}
+        />
       </div>
     </div>
   );

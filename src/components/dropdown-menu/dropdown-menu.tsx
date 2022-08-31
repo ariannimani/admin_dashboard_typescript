@@ -4,9 +4,8 @@ interface IDropdownMenu {
   isOpen: boolean;
   items: string[];
   isSelected?: string;
-  changeItemHandler?: React.MouseEventHandler<HTMLButtonElement>;
+  changeItemHandler?: any; //React.MouseEventHandler<HTMLButtonElement>;
 }
-
 const DropdownMenu: FunctionComponent<IDropdownMenu> = ({
   isOpen,
   items,
@@ -23,7 +22,7 @@ const DropdownMenu: FunctionComponent<IDropdownMenu> = ({
           className="dropdown-item btn btn-link"
           value={item}
           type="button"
-          onClick={changeItemHandler}
+          onClick={(e) => changeItemHandler(e)}
         >
           {item}
         </button>

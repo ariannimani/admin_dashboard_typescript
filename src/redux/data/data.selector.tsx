@@ -41,6 +41,12 @@ export const selectRegionCollection = createSelector(
       .map((region) => region.Region)
 );
 
+//Select Years
+
+export const selectYears = createSelector([selectDataCollection], (years) => {
+  return years.map((year) => year["Order Date"].slice(-4));
+});
+
 //NEED TO FIX
 export const selectProfitData = createSelector(
   [selectDataCollection],
@@ -128,3 +134,9 @@ export const selectLast60DaysData = createSelector(
     return FinalData;
   }
 );
+
+export const selectAllData = createSelector([selectDataCollection], (units) => {
+  return units.filter(
+    (unit) => unit //Number(unit["Order Date"].slice(-4)) === year
+  );
+});

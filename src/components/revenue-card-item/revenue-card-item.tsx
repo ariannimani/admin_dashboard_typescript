@@ -1,12 +1,24 @@
 import React, { useState } from "react";
 import DropdownMenu from "../dropdown-menu/dropdown-menu";
 
-export const RevenueCardItem = () => {
+interface IRevenueCardItem {
+  selectYear: string[];
+}
+
+export const RevenueCardItem: React.FC<IRevenueCardItem> = (props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<string>("");
+  const [selectedItem, setSelectedItem] = useState<string>(props.selectYear[0]);
 
   const closeMenuHandler = () => {
     setIsOpen(false);
+  };
+
+  const changeItemHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    const item: HTMLButtonElement = event.currentTarget;
+    setSelectedItem(item.value);
+    closeMenuHandler();
   };
 
   return (
@@ -22,19 +34,18 @@ export const RevenueCardItem = () => {
               aria-haspopup="true"
               aria-expanded="false"
               onClick={() => setIsOpen(!isOpen)}
-              onBlur={closeMenuHandler}
             >
-              2022
+              {selectedItem}
             </button>
-            {/*{isOpen ? (
+            {isOpen ? (
               <DropdownMenu
                 isOpen={isOpen}
-                items={[]}
-                setSelectedItem={setSelectedItem}
+                items={props.selectYear}
+                changeItemHandler={changeItemHandler}
               />
             ) : (
               ""
-            )}*/}
+            )}
           </div>
         </div>
       </div>
