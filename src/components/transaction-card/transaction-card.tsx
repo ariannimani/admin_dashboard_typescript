@@ -71,7 +71,7 @@ export const TransactionCard: React.FC<ITransactions> = ({
           </div>
         </div>
         <span className="fw-semibold d-block mb-1">{title}</span>
-        <h3 className="card-title mb-2">
+        <h4 className="card-title mb-2">
           $
           {numberWithCommas(
             data.toLocaleString("en", {
@@ -79,7 +79,7 @@ export const TransactionCard: React.FC<ITransactions> = ({
               minimumFractionDigits: 2,
             })
           )}
-        </h3>
+        </h4>
         <small
           className={`fw-semibold ${
             increase >= 0 ? "text-success" : "text-danger"

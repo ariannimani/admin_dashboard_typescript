@@ -52,7 +52,7 @@ export const App = () => {
                     <div className="col-lg-6 col-md-12 col-6 mb-4">
                       <TransactionCard
                         data={selectProfit}
-                        title={"Profit"}
+                        title={"Expenses"}
                         increase={selectTotalIncrease}
                       />
                     </div>

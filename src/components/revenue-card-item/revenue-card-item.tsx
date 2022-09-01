@@ -3,6 +3,7 @@ import { IDataItem } from "../../redux/data/data.types";
 import { formatCash } from "../../redux/utils/otherFunctions";
 import DropdownMenu from "../dropdown-menu/dropdown-menu";
 import { PieChart, Pie, Sector } from "recharts";
+import useDidMountEffect from "../../customHooks/useDidMountEffect";
 
 interface IRevenueCardItem {
   selectYear: string[];
@@ -78,10 +79,12 @@ const renderActiveShape = (props: any) => {
 
 const RevenueCardItem: React.FC<IRevenueCardItem> = (props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<number>(
-    Number(props.selectYear[0])
-  );
+  const [selectedItem, setSelectedItem] = useState<number>(0);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useDidMountEffect(() => {
+    setSelectedItem(Number(props.selectYear[0]));
+  }, [props.selectYear]);
 
   const onPieEnter = (_: any, index: number) => {
     setActiveIndex(index);
@@ -157,10 +160,8 @@ const RevenueCardItem: React.FC<IRevenueCardItem> = (props) => {
         </div>
       </div>
       <div id="growthChart">
-        <div className="text-center fw-semibold pt-3 mb-2">
-          Last Two Years Total Sales
-        </div>
-        <div className="text-center fw-semibold pt-3 mb-2">
+        <div className="text-center">Last Two Years Total Sales</div>
+        <div className="text-center fw-semibold">
           $
           {formatCash(
             filterDataSelectedYear(selectedItem) +

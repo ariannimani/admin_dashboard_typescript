@@ -25,7 +25,7 @@ const RevenueCard = () => {
   const selectAllDataDays = useSelector(selectAllData);
   const selectYear = useSelector(selectYears);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedRegion, setSelectedRegion] = useState<string>("");
+  const [selectedRegion, setSelectedRegion] = useState<string>(selectRegion[0]);
 
   const Data = () => {
     return selectAllDataDays
@@ -47,7 +47,7 @@ const RevenueCard = () => {
 
   useDidMountEffect(() => {
     setSelectedRegion(selectRegion[0]);
-  }, []);
+  }, [selectRegion]);
 
   const changeItemHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -88,8 +88,8 @@ const RevenueCard = () => {
           </div>
           <div id="totalRevenueChart" className="px-2">
             <ComposedChart
-              width={500}
-              height={400}
+              width={600}
+              height={480}
               data={Data()}
               margin={{
                 top: 20,
