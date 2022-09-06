@@ -132,7 +132,7 @@ const RevenueCardItem: React.FC<IRevenueCardItem> = (props) => {
   };
 
   return (
-    <div className="col-md-4 d-flex flex-column">
+    <div className="col-md-4 d-flex flex-column align-items-center">
       <div className="card-body">
         <div className="text-center">
           <div className="dropdown">
@@ -168,7 +168,7 @@ const RevenueCardItem: React.FC<IRevenueCardItem> = (props) => {
               filterDataSelectedYear(selectedItem - 1)
           )}
         </div>
-        <PieChart width={300} height={300}>
+        <PieChart width={460} height={300}>
           <Pie
             activeIndex={activeIndex}
             activeShape={renderActiveShape}

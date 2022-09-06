@@ -32,13 +32,13 @@ const RevenueCard = () => {
       .filter((region) => region["Region"] === selectedRegion)
       .map((i) => {
         return {
-          name: i["Order Date"],
+          date: i["Order Date"],
           revenue: i["Total Revenue"],
           profit: i["Total Profit"],
           expenses: i["Total Cost"],
         };
       })
-      .sort((a, b) => (Date.parse(a.name) > Date.parse(b.name) ? 1 : -1));
+      .sort((a, b) => (Date.parse(a.date) > Date.parse(b.date) ? 1 : -1));
   };
 
   const closeMenuHandler = () => {
@@ -58,34 +58,36 @@ const RevenueCard = () => {
   };
   return (
     <div className="card">
-      <div className="row row-bordered g-0">
-        <div className="col-md-8 d-flex flex-column justify-content-between">
-          <div className="card-header d-flex flex-row justify-content-around">
-            <h5 className="m-0 me-2 pb-3">Total Revenue</h5>
-            <div className="dropdown">
-              <button
-                className="btn btn-sm btn-outline-primary dropdown-toggle"
-                type="button"
-                id="growthReportId"
-                data-bs-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-                onClick={() => setIsOpen(!isOpen)}
-                //onBlur={closeMenuHandler}
-              >
-                {selectedRegion}
-              </button>
-              {isOpen ? (
-                <DropdownMenu
-                  isOpen={isOpen}
-                  items={selectRegion}
-                  changeItemHandler={changeItemHandler}
-                />
-              ) : (
-                ""
-              )}
-            </div>
+      <div className="col-md-8 d-flex flex-column ">
+        <div className="card-header d-flex flex-row justify-content-around">
+          <h5 className="m-0 me-2 pb-3">Total Revenue</h5>
+          <div className="dropdown">
+            <button
+              className="btn btn-sm btn-outline-primary dropdown-toggle"
+              type="button"
+              id="growthReportId"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              onClick={() => setIsOpen(!isOpen)}
+              //onBlur={closeMenuHandler}
+            >
+              {selectedRegion}
+            </button>
+            {isOpen ? (
+              <DropdownMenu
+                isOpen={isOpen}
+                items={selectRegion}
+                changeItemHandler={changeItemHandler}
+              />
+            ) : (
+              ""
+            )}
           </div>
+        </div>
+      </div>
+      <div className="row row-bordered g-0">
+        <div className="col-md-8 d-flex flex-column justify-content-between align-items-center">
           <div id="totalRevenueChart" className="px-2">
             <ComposedChart
               width={600}
@@ -99,7 +101,7 @@ const RevenueCard = () => {
               }}
             >
               <CartesianGrid stroke="#f5f5f5" />
-              <XAxis dataKey="name" scale="band" />
+              <XAxis dataKey="date" scale="band" />
               <YAxis />
               <Tooltip />
               <Legend />

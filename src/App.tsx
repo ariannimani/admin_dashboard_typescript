@@ -16,13 +16,16 @@ import { AppDispatch, fetchDataAsync } from "./redux/data/data.action";
 import { useSelector } from "react-redux";
 import {
   selectProfitData,
+  selectTopOrdersData,
   selectTotalIncreaseData,
 } from "./redux/data/data.selector";
+import { Table } from "./components/table/table";
 
 export const App = () => {
   const dispatch: any = useDispatch<AppDispatch>();
   const selectProfit = useSelector(selectProfitData);
   const selectTotalIncrease = useSelector(selectTotalIncreaseData);
+  const selectTopOrders = useSelector(selectTopOrdersData);
 
   useEffect(() => {
     dispatch(fetchDataAsync());
@@ -58,23 +61,26 @@ export const App = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
+                <div className="col-12 order-2 order-md-3 order-lg-2 mb-4">
                   <RevenueCard />
-                </div>
-                <div className="col-12 col-md-8 col-lg-4 order-3 order-md-2">
-                  <div className="row">
-                    <div className="col-6 mb-4">{/*<TransactionCard />*/}</div>
-                    <div className="col-6 mb-4">{/*<TransactionCard />*/}</div>
-                    <div className="col-12 mb-4">
-                      <ProfileReportCard />
-                    </div>
-                  </div>
                 </div>
               </div>
               <div className="row">
                 <div className="col-md-6 col-lg-4 col-xl-4 order-0 mb-4">
                   <OrderStatistics />
                 </div>
+                <div className="col-md-6 col-lg-4 order-1 mb-4">
+                  <ExpensesCard />
+                </div>
+                <div className="col-md-6 col-lg-4 order-2 mb-4">
+                  <TransactionStatistics />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-12 col-lg-12 col-xl-12 order-0 mb-4">
+                  <Table title={"Recent Orders"} items={selectTopOrders} />
+                </div>
+                <div className="row"></div>
                 <div className="col-md-6 col-lg-4 order-1 mb-4">
                   <ExpensesCard />
                 </div>

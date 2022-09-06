@@ -143,8 +143,25 @@ export const selectLast60DaysData = createSelector(
   }
 );
 
-export const selectAllData = createSelector([selectDataCollection], (units) => {
-  return units.filter(
+export const selectAllData = createSelector([selectDataCollection], (units) =>
+  units.filter(
     (unit) => unit //Number(unit["Order Date"].slice(-4)) === year
-  );
-});
+  )
+);
+
+export const selectTopOrdersData = createSelector([selectAllData], (orders) =>
+  orders
+    .map((i) => {
+      return {
+        orderID: i["Order ID"],
+        item: i["Item Type"],
+        country: i["Country"],
+        date: i["Order Date"],
+        units: i["Units Sold"],
+        channel: i["Sales Channel"],
+      };
+    })
+    .sort((a, b) => (Date.parse(a.date) > Date.parse(b.date) ? 1 : -1))
+    .reverse()
+    .slice(0, 5)
+);
