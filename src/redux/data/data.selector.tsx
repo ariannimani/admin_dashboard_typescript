@@ -1,3 +1,4 @@
+import { object } from "prop-types";
 import { createSelector } from "reselect";
 import { IDataState } from "./data.types";
 
@@ -78,6 +79,26 @@ export const selectProfitData = createSelector(
   }
 );
 
+export const selectExpensesData = createSelector(
+  [selectDataCollection],
+  (profit) => {
+    const date = profit
+      .filter((date) => new Date(date["Order Date"]))
+      .map((item) => new Date(item["Order Date"]).getTime() / 1000);
+
+    const maxDate = Math.max.apply(null, date);
+
+    const previousWeek = Number((maxDate - 30 * 24 * 60 * 60) * 1000);
+
+    const Profit = profit
+      .filter((unit) => new Date(unit["Order Date"]).getTime() > previousWeek)
+      .map((data) => data["Total Cost"])
+      .reduce((sum, a) => sum + a, 0);
+
+    return Profit;
+  }
+);
+
 export const selectTotalIncreaseData = createSelector(
   [selectDataCollection],
   (profitPercentage) => {
@@ -89,6 +110,23 @@ export const selectTotalIncreaseData = createSelector(
     const ProfitLastYear = profitPercentage
       .filter((date) => Number(date["Order Date"].slice(-4)) === lastYear)
       .map((data) => data["Total Profit"])
+      .reduce((sum, a) => sum + a, 0);
+
+    return ((ProfitCurrentYear - ProfitLastYear) / ProfitCurrentYear) * 100;
+  }
+);
+
+export const selectTotalExpensesData = createSelector(
+  [selectDataCollection],
+  (profitPercentage) => {
+    const ProfitCurrentYear = profitPercentage
+      .filter((date) => Number(date["Order Date"].slice(-4)) === year)
+      .map((data) => data["Total Cost"])
+      .reduce((sum, a) => sum + a, 0);
+
+    const ProfitLastYear = profitPercentage
+      .filter((date) => Number(date["Order Date"].slice(-4)) === lastYear)
+      .map((data) => data["Total Cost"])
       .reduce((sum, a) => sum + a, 0);
 
     return ((ProfitCurrentYear - ProfitLastYear) / ProfitCurrentYear) * 100;
@@ -164,4 +202,54 @@ export const selectTopOrdersData = createSelector([selectAllData], (orders) =>
     .sort((a, b) => (Date.parse(a.date) > Date.parse(b.date) ? 1 : -1))
     .reverse()
     .slice(0, 5)
+);
+
+export const selectTopOnlineOfflineData = createSelector(
+  [selectDataCollection],
+  (units) => {
+    const CurrentYearData = units.filter(
+      (date) => Number(date["Order Date"].slice(-4)) === year
+    );
+    const OnlineOfflineData = Array.from(
+      CurrentYearData.reduce(
+        (m, { "Sales Channel": type, "Units Sold": sold }) =>
+          m.set(type, (m.get(type) || 0) + sold),
+        new Map<string, number>()
+      ),
+      ([type, sold]) => ({ type, sold })
+    );
+    return OnlineOfflineData;
+  }
+);
+
+export const selectPriorityData = createSelector(
+  [selectDataCollection],
+  (units) => {
+    const CurrentYearData = units.filter(
+      (date) => Number(date["Order Date"].slice(-4)) === year
+    );
+    const PriorityItems = Array.from(
+      CurrentYearData.reduce(
+        (m, { "Order Priority": type, "Units Sold": sold }) =>
+          m.set(type, (m.get(type) || 0) + sold),
+        new Map<string, number>()
+      ),
+      ([type, sold]) => ({ type, sold })
+    );
+
+    const newObjArr = PriorityItems.map((obj) => {
+      if (["L"].includes(obj.type)) {
+        return { ...obj, type: "Low" };
+      } else if (["M"].includes(obj.type)) {
+        return { ...obj, type: "Medium" };
+      } else if (["H"].includes(obj.type)) {
+        return { ...obj, type: "High" };
+      } else if (["C"].includes(obj.type)) {
+        return { ...obj, type: "Neutral" };
+      }
+      return obj;
+    });
+
+    return newObjArr.sort((a, b) => (a.sold > b.sold ? 1 : -1)).reverse();
+  }
 );

@@ -1,156 +1,43 @@
-import React, { useState } from "react";
-import DropdownMenu from "../dropdown-menu/dropdown-menu";
+import React from "react";
 
-export const TransactionStatistics = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+interface IItems {
+  type: string;
+  sold: number;
+}
+interface IStatistics {
+  title: string;
+  items: IItems[];
+}
 
-  const closeMenuHandler = () => {
-    setIsOpen(false);
-  };
+export const TransactionStatistics: React.FC<IStatistics> = (props) => {
   return (
     <div className="card h-100">
       <div className="card-header d-flex align-items-center justify-content-between">
-        <h5 className="card-title m-0 me-2">Transactions</h5>
-        <div className="dropdown">
-          <button
-            className="btn p-0"
-            type="button"
-            id="transactionID"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-            onClick={() => setIsOpen(!isOpen)}
-            onBlur={closeMenuHandler}
-          >
-            <i className="bx bx-dots-vertical-rounded"></i>
-          </button>
-          {isOpen ? (
-            <DropdownMenu
-              isOpen={isOpen}
-              items={[]}
-              changeItemHandler={closeMenuHandler}
-            />
-          ) : (
-            ""
-          )}
-        </div>
+        <h5 className="card-title m-0 me-2">{props.title}</h5>
       </div>
       <div className="card-body">
         <ul className="p-0 m-0">
-          <li className="d-flex mb-4 pb-1">
-            <div className="avatar flex-shrink-0 me-3">
-              <img
-                src="../assets/img/icons/unicons/paypal.png"
-                alt="User"
-                className="rounded"
-              />
-            </div>
-            <div className="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-              <div className="me-2">
-                <small className="text-muted d-block mb-1">Paypal</small>
-                <h6 className="mb-0">Send money</h6>
+          {props.items.map((item) => (
+            <li className="d-flex mb-4 pb-1">
+              <div className="avatar flex-shrink-0 me-3">
+                <img
+                  src={require(`../../assets/img/icons/${item.type.toLowerCase()}.png`)}
+                  alt={item.type}
+                  className="rounded"
+                />
               </div>
-              <div className="user-progress d-flex align-items-center gap-1">
-                <h6 className="mb-0">+82.6</h6>
-                <span className="text-muted">USD</span>
+              <div className="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                <div className="me-2">
+                  <small className="text-muted d-block mb-1">{item.type}</small>
+                  {/*<h6 className="mb-0">Send money</h6>*/}
+                </div>
+                <div className="user-progress d-flex align-items-center gap-1">
+                  <h6 className="mb-0">{item.sold}</h6>
+                  {/*<span className="text-muted">USD</span>*/}
+                </div>
               </div>
-            </div>
-          </li>
-          <li className="d-flex mb-4 pb-1">
-            <div className="avatar flex-shrink-0 me-3">
-              <img
-                src="../assets/img/icons/unicons/wallet.png"
-                alt="User"
-                className="rounded"
-              />
-            </div>
-            <div className="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-              <div className="me-2">
-                <small className="text-muted d-block mb-1">Wallet</small>
-                <h6 className="mb-0">Mac'D</h6>
-              </div>
-              <div className="user-progress d-flex align-items-center gap-1">
-                <h6 className="mb-0">+270.69</h6>
-                <span className="text-muted">USD</span>
-              </div>
-            </div>
-          </li>
-          <li className="d-flex mb-4 pb-1">
-            <div className="avatar flex-shrink-0 me-3">
-              <img
-                src="../assets/img/icons/unicons/chart.png"
-                alt="User"
-                className="rounded"
-              />
-            </div>
-            <div className="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-              <div className="me-2">
-                <small className="text-muted d-block mb-1">Transfer</small>
-                <h6 className="mb-0">Refund</h6>
-              </div>
-              <div className="user-progress d-flex align-items-center gap-1">
-                <h6 className="mb-0">+637.91</h6>
-                <span className="text-muted">USD</span>
-              </div>
-            </div>
-          </li>
-          <li className="d-flex mb-4 pb-1">
-            <div className="avatar flex-shrink-0 me-3">
-              <img
-                src="../assets/img/icons/unicons/cc-success.png"
-                alt="User"
-                className="rounded"
-              />
-            </div>
-            <div className="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-              <div className="me-2">
-                <small className="text-muted d-block mb-1">Credit Card</small>
-                <h6 className="mb-0">Ordered Food</h6>
-              </div>
-              <div className="user-progress d-flex align-items-center gap-1">
-                <h6 className="mb-0">-838.71</h6>
-                <span className="text-muted">USD</span>
-              </div>
-            </div>
-          </li>
-          <li className="d-flex mb-4 pb-1">
-            <div className="avatar flex-shrink-0 me-3">
-              <img
-                src="../assets/img/icons/unicons/wallet.png"
-                alt="User"
-                className="rounded"
-              />
-            </div>
-            <div className="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-              <div className="me-2">
-                <small className="text-muted d-block mb-1">Wallet</small>
-                <h6 className="mb-0">Starbucks</h6>
-              </div>
-              <div className="user-progress d-flex align-items-center gap-1">
-                <h6 className="mb-0">+203.33</h6>
-                <span className="text-muted">USD</span>
-              </div>
-            </div>
-          </li>
-          <li className="d-flex">
-            <div className="avatar flex-shrink-0 me-3">
-              <img
-                src="../assets/img/icons/unicons/cc-warning.png"
-                alt="User"
-                className="rounded"
-              />
-            </div>
-            <div className="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-              <div className="me-2">
-                <small className="text-muted d-block mb-1">Mastercard</small>
-                <h6 className="mb-0">Ordered Food</h6>
-              </div>
-              <div className="user-progress d-flex align-items-center gap-1">
-                <h6 className="mb-0">-92.45</h6>
-                <span className="text-muted">USD</span>
-              </div>
-            </div>
-          </li>
+            </li>
+          ))}
         </ul>
       </div>
     </div>

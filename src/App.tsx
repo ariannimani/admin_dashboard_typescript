@@ -15,8 +15,12 @@ import { useDispatch } from "react-redux";
 import { AppDispatch, fetchDataAsync } from "./redux/data/data.action";
 import { useSelector } from "react-redux";
 import {
+  selectExpensesData,
+  selectPriorityData,
   selectProfitData,
+  selectTopOnlineOfflineData,
   selectTopOrdersData,
+  selectTotalExpensesData,
   selectTotalIncreaseData,
 } from "./redux/data/data.selector";
 import { Table } from "./components/table/table";
@@ -26,7 +30,12 @@ export const App = () => {
   const selectProfit = useSelector(selectProfitData);
   const selectTotalIncrease = useSelector(selectTotalIncreaseData);
   const selectTopOrders = useSelector(selectTopOrdersData);
+  const selectOnOffOrders = useSelector(selectTopOnlineOfflineData);
+  const selectPriority = useSelector(selectPriorityData);
+  const selectExpenses = useSelector(selectExpensesData);
+  const selectTotalExpenses = useSelector(selectTotalExpensesData);
 
+  console.log(selectPriority);
   useEffect(() => {
     dispatch(fetchDataAsync());
   }, [dispatch]);
@@ -41,22 +50,22 @@ export const App = () => {
             <div className="container-xxl flex-grow-1 container-p-y">
               <div className="row">
                 <div className="col-lg-8 mb-4 order-0">
-                  <BadgeCard />
+                  <BadgeCard data={selectTotalIncrease} />
                 </div>
-                <div className="col-lg-4 col-md-4 order-1">
+                <div className="col-lg-4 col-md-12 order-1">
                   <div className="row">
-                    <div className="col-lg-6 col-md-12 col-6 mb-4">
+                    <div className="col-lg-6 col-md-6 col-6 mb-4">
                       <TransactionCard
                         data={selectProfit}
                         title={"Profit"}
                         increase={selectTotalIncrease}
                       />
                     </div>
-                    <div className="col-lg-6 col-md-12 col-6 mb-4">
+                    <div className="col-lg-6 col-md-6 col-6 mb-4">
                       <TransactionCard
-                        data={selectProfit}
+                        data={selectExpenses}
                         title={"Expenses"}
-                        increase={selectTotalIncrease}
+                        increase={selectTotalExpenses}
                       />
                     </div>
                   </div>
@@ -73,22 +82,23 @@ export const App = () => {
                   <ExpensesCard />
                 </div>
                 <div className="col-md-6 col-lg-4 order-2 mb-4">
-                  <TransactionStatistics />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-12 col-lg-12 col-xl-12 order-0 mb-4">
-                  <Table title={"Recent Orders"} items={selectTopOrders} />
-                </div>
-                <div className="row"></div>
-                <div className="col-md-6 col-lg-4 order-1 mb-4">
-                  <ExpensesCard />
+                  <TransactionStatistics
+                    title={"Transactions Statistics"}
+                    items={selectPriority}
+                  />
                 </div>
                 <div className="col-md-6 col-lg-4 order-2 mb-4">
-                  <TransactionStatistics />
+                  <TransactionStatistics
+                    title={"Online/Offline Statistics"}
+                    items={selectOnOffOrders}
+                  />
+                </div>
+                <div className="col-md-12 col-lg-8 order-4 mb-4">
+                  <Table title={"Recent Orders"} items={selectTopOrders} />
                 </div>
               </div>
             </div>
+
             <Footer />
           </div>
         </div>

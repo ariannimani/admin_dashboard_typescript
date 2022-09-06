@@ -1,8 +1,6 @@
 import React, { useRef, useState } from "react";
 import DropdownMenu from "../dropdown-menu/dropdown-menu";
 import { numberWithCommas } from "../../redux/utils/otherFunctions";
-import { useSelector } from "react-redux";
-import { selectProfitData } from "../../redux/data/data.selector";
 
 interface ITransactions {
   data: number;
@@ -41,7 +39,9 @@ export const TransactionCard: React.FC<ITransactions> = ({
         <div className="card-title d-flex align-items-start justify-content-between">
           <div className="avatar flex-shrink-0">
             <img
-              src="../assets/img/icons/unicons/chart-success.png"
+              src={`../assets/img/icons/unicons/chart-${
+                title.toLocaleLowerCase() === "profit" ? "success" : "info"
+              }.png`}
               alt="chart success"
               className="rounded"
             />

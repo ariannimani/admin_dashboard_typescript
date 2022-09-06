@@ -15,7 +15,6 @@ interface ITable {
 }
 
 export const Table: React.FC<ITable> = (props) => {
-  console.log(props.items);
   return (
     <div className="card">
       <h5 className="card-header">{props.title}</h5>
