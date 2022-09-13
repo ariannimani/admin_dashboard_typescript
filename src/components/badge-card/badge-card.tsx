@@ -1,11 +1,12 @@
 import React from "react";
-import { useState } from "react";
 
 interface IBadgeCard {
   data: number;
+  isOpen: boolean;
+  clickHandler: () => void;
 }
 
-const Success: React.FC<IBadgeCard> = (props, clickHandler) => {
+const Success: React.FC<IBadgeCard> = (props) => {
   return (
     <div className="d-flex align-items-end row">
       <div className="col-sm-7">
@@ -18,7 +19,7 @@ const Success: React.FC<IBadgeCard> = (props, clickHandler) => {
           </p>
           <button
             className="btn btn-sm btn-outline-primary hover-btn"
-            onClick={clickHandler}
+            onClick={() => props.clickHandler}
           >
             Close
           </button>
@@ -37,7 +38,7 @@ const Success: React.FC<IBadgeCard> = (props, clickHandler) => {
   );
 };
 
-const Failed: React.FC<IBadgeCard> = (props, clickHandler) => {
+const Failed: React.FC<IBadgeCard> = (props) => {
   return (
     <div className="d-flex align-items-end row">
       <div className="col-sm-7">
@@ -50,7 +51,7 @@ const Failed: React.FC<IBadgeCard> = (props, clickHandler) => {
           </p>
           <button
             className="btn btn-sm btn-outline-primary hover-btn"
-            onClick={clickHandler}
+            onClick={props.clickHandler}
           >
             Close
           </button>
@@ -70,19 +71,9 @@ const Failed: React.FC<IBadgeCard> = (props, clickHandler) => {
 };
 
 export const BadgeCard: React.FC<IBadgeCard> = (props) => {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
-
-  const clickHandler = () => {
-    setIsOpen(false);
-  };
-
   return (
     <div className="card">
-      {isOpen
-        ? props.data > 0
-          ? Success(props, clickHandler)
-          : Failed(props, clickHandler)
-        : ""}
+      {props.data > 0 ? Success(props) : Failed(props)}
     </div>
   );
 };

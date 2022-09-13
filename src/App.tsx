@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Footer } from "./components/footer/footer";
 import { NavBar } from "./components/nav-bar/nav-bar";
 import { BadgeCard } from "./components/badge-card/badge-card";
 import { TransactionCard } from "./components/transaction-card/transaction-card";
 import RevenueCard from "./components/revenue-card/revenue-card";
-import { ProfileReportCard } from "./components/profile-report-card/profile-report-card";
 import { ExpensesCard } from "./components/expenses-card/expenses-card";
 import { TransactionStatistics } from "./components/transactions-statistics/transaction-statistics";
 import { OrderStatistics } from "./components/order-statistics/order-statistics";
@@ -35,7 +34,12 @@ export const App = () => {
   const selectExpenses = useSelector(selectExpensesData);
   const selectTotalExpenses = useSelector(selectTotalExpensesData);
 
-  console.log(selectPriority);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+
+  const clickHandler = () => {
+    setIsOpen(false);
+  };
+
   useEffect(() => {
     dispatch(fetchDataAsync());
   }, [dispatch]);
@@ -49,9 +53,17 @@ export const App = () => {
           <div className="content-wrapper">
             <div className="container-xxl flex-grow-1 container-p-y">
               <div className="row">
-                <div className="col-lg-8 mb-4 order-0">
-                  <BadgeCard data={selectTotalIncrease} />
-                </div>
+                {isOpen ? (
+                  <div className="col-lg-8 mb-4 order-0">
+                    <BadgeCard
+                      data={selectTotalIncrease}
+                      clickHandler={clickHandler}
+                      isOpen={isOpen}
+                    />
+                  </div>
+                ) : (
+                  ""
+                )}
                 <div className="col-lg-4 col-md-12 order-1">
                   <div className="row">
                     <div className="col-lg-6 col-md-6 col-6 mb-4">
