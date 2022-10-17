@@ -13,24 +13,8 @@ In the project directory, you can run:
 Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-Install packages
+Install dependecies
 
 Redux
 
-`npm install --save redux @types/redux react-redux @types/react-redux redux-thunk redux-saga reselect redux-persist @types/redux-persist redux-logger @types/redux-logger`
-
-Bootstrap
-
-`npm install react-bootstrap bootstrap`
-
-Router
-
-`npm install react-router react-router-dom`
-
-Axios
-
-`npm install axios`
-
-ReCharts
-
-`npm install recharts`
+`npm install`
